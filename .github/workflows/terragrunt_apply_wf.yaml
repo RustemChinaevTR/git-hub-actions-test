@@ -5,6 +5,8 @@ env:
   tf_version: 'latest'
   tg_version: 'latest'
   tf_working_dir: './infrastructure/manifest/asset/global/30-global-dynamodb-tables'
+  AWS_REGION: 'us-east-1'
+
 jobs:
   checkout:
     runs-on: ubuntu-22.04
