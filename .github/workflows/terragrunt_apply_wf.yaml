@@ -10,6 +10,7 @@ env:
 jobs:
   checkout:
     runs-on: ubuntu-22.04
+    environment: INFRA-NON-PROD-PLAN
     steps:
       - name: checkout
         uses: actions/checkout@v3
