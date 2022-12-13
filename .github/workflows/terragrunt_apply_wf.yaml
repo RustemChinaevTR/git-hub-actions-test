@@ -31,7 +31,7 @@ jobs:
 
       - name: Interact with terragrunt
         run: terragrunt plan
-        working-directory: ${{ tf_working_dir }}
+        working-directory: ${{ env.tf_working_dir }}
         env:
           ENV: a208193-us-lab
 
