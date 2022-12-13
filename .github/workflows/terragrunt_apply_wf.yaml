@@ -1,0 +1,50 @@
+name: Apply terragrunt workflow
+on:
+  workflow_dispatch:
+env:
+  tf_version: 'latest'
+  tg_version: 'latest'
+  tf_working_dir: './infrastructure/manifest/asset/global/30-global-dynamodb-tables'
+jobs:
+  checkout:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.tf_version }}
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: ${{ env.tg_version }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Interact with terragrunt
+        run: terragrunt plan
+        working-directory: ${{ tf_working_dir }}
+        env:
+          ENV: a208193-us-lab
+
+
+
+#  plan:
+#    runs-on: ${{ env.runs-on }}
+#    name: plan
+#    uses: the-commons-project/terragrunt-github-actions@master
+#    with:
+#      tf_actions_version: ${{ env.tf_version }}
+#      tg_actions_version: ${{ env.tg_version }}
+#      tf_actions_binary: 'terraform'
+#      tf_actions_subcommand: 'fmt'
+#      tf_actions_working_dir: ${{ env.tf_working_dir }}
+#      tf_actions_comment: true
